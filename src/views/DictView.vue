@@ -22,7 +22,9 @@
             <div v-if="ankiEnabled && ankiStatus != ''">{{ ankiStatus }}</div>
             <div v-for="item in searchResult">
                 <hr>
-                <h2 style="font-size: 1.7em; margin-bottom: 10px; margin-top: 2px;">{{ item.title }}</h2>
+                <h2 style="font-size: 1.7em; margin-bottom: 10px; margin-top: 2px;">
+                    {{ item.title }} {{ item.detail?.[0]?.tags }}
+                </h2>
                 <span class="explain">
                     <h3 v-if="!item.detail">{{ item.excerpt }}</h3>
                     <ol v-else>
@@ -216,6 +218,7 @@ async function fetchMojiDetail(obj_id) {
                 result[x.relaId] = { main: x.title, sub: "" }
             }
         })
+        result[0] = { tags: response.data.result.result[0].tags };
         cache_detail[obj_id] = response
     } catch (error) {
         console.log(error)
